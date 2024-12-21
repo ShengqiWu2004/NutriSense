@@ -29,101 +29,14 @@ struct FoodsView: View {
                             }
                         }
                 }
-                
 
+                // DateMenu encapsulated
                 if isMenuOpen {
-                    VStack {
-                        VStack {
-                            Text("Select a Date")
-                                .font(.headline)
-                                .foregroundColor(Color.accentColor)
-                                .padding(.top, 20)
-
-                            DatePicker("", selection: $selectedDate, displayedComponents: .date)
-                                .datePickerStyle(GraphicalDatePickerStyle())
-                                .accentColor(Color.accentColor)
-                                .labelsHidden()
-                                .padding()
-                        }
-                        .frame(maxWidth: .infinity)
-                        .transition(.move(edge: .bottom).combined(with: .opacity))
-                        .background(Color.white)
-                        .cornerRadius(20)
-                        .shadow(radius: 10)
-
-                        Spacer()
-                    }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .background(
-                        Color.white.opacity(0.01) // Transparent background for tap detection
-                            .onTapGesture {
-                                withAnimation {
-                                    isMenuOpen = false
-                                }
-                            }
-                    )
-                    .shadow(radius: 10)
-                    .padding(.top, 50)
+                    DateMenu(isMenuOpen: $isMenuOpen, selectedDate: $selectedDate)
                 }
 
-                // Smaller buttons moving outward
-                VStack {
-                    Spacer()
-                    HStack {
-                        Spacer()
-                        ZStack {
-                            // First button (Meal)
-                            NavigationLink(destination: AddMealView()) {
-                                Circle()
-                                    .fill(Color.accentColor)
-                                    .frame(width: 50, height: 50)
-                                    .overlay(
-                                        Image(systemName: "fork.knife")
-                                            .foregroundColor(.white)
-                                            .font(.title2)
-                                    )
-                            }
-                            .offset(y: isAdding ? -80 : 0)
-                            .opacity(isAdding ? 1 : 0)
-                            .scaleEffect(isAdding ? 1 : 0.5)
-                            .animation(.spring(response: 0.4, dampingFraction: 0.7), value: isAdding)
-
-                            // Second button (Symptom)
-                            NavigationLink(destination: AddSymptomView()) {
-                                Circle()
-                                    .fill(Color.accentColor)
-                                    .frame(width: 50, height: 50)
-                                    .overlay(
-                                        Image(systemName: "heart.text.square")
-                                            .foregroundColor(.white)
-                                            .font(.title2)
-                                    )
-                            }
-                            .offset(y: isAdding ? -160 : 0)
-                            .opacity(isAdding ? 1 : 0)
-                            .scaleEffect(isAdding ? 1 : 0.5)
-                            .animation(.spring(response: 0.4, dampingFraction: 0.7), value: isAdding)
-
-                            // Add button
-                            ZStack {
-                                Circle()
-                                    .fill(Color.accentColor)
-                                    .frame(width: 60, height: 60)
-
-                                Image(systemName: "plus")
-                                    .foregroundColor(.white)
-                                    .font(.title)
-                            }
-                            .onTapGesture {
-                                withAnimation {
-                                    isAdding.toggle()
-                                }
-                            }
-                        }
-                        .padding(.trailing, 20)
-                        .padding(.bottom, 20)
-                    }
-                }
+                // AddingDial encapsulated
+                AddingDial(isAdding: $isAdding)
             }
             .animation(.easeInOut(duration: 0.15), value: isMenuOpen)
             .toolbar {
@@ -134,10 +47,114 @@ struct FoodsView: View {
                         }
                     }) {
                         Image(systemName: "line.horizontal.3")
-                            .foregroundColor(isMenuOpen ? Color.green : Color.gray)
+                            .foregroundColor(isMenuOpen ? Color.accentColor : Color.gray)
                             .font(.title2)
                     }
                 }
+            }
+        }
+    }
+}
+
+struct DateMenu: View {
+    @Binding var isMenuOpen: Bool
+    @Binding var selectedDate: Date
+
+    var body: some View {
+        VStack {
+            VStack {
+                Text("Select a Date")
+                    .font(.headline)
+                    .foregroundColor(Color.accentColor)
+                    .padding(.top, 20)
+
+                DatePicker("", selection: $selectedDate, displayedComponents: .date)
+                    .datePickerStyle(GraphicalDatePickerStyle())
+                    .accentColor(Color.accentColor)
+                    .labelsHidden()
+                    .padding()
+            }
+            .frame(maxWidth: .infinity)
+            .transition(.move(edge: .bottom).combined(with: .opacity))
+            .background(Color.white)
+            .cornerRadius(20)
+            .shadow(radius: 10)
+
+            Spacer()
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(
+            Color.white.opacity(0.01) // Transparent background for tap detection
+                .onTapGesture {
+                    withAnimation {
+                        isMenuOpen = false
+                    }
+                }
+        )
+        .shadow(radius: 10)
+        .padding(.top, 50)
+    }
+}
+
+struct AddingDial: View {
+    @Binding var isAdding: Bool
+
+    var body: some View {
+        VStack {
+            Spacer()
+            HStack {
+                Spacer()
+                ZStack {
+                    // First button (Meal)
+                    NavigationLink(destination: AddMealView()) {
+                        Circle()
+                            .fill(Color.accentColor)
+                            .frame(width: 50, height: 50)
+                            .overlay(
+                                Image(systemName: "fork.knife")
+                                    .foregroundColor(.white)
+                                    .font(.title2)
+                            )
+                    }
+                    .offset(y: isAdding ? -80 : 0)
+                    .opacity(isAdding ? 1 : 0)
+                    .scaleEffect(isAdding ? 1 : 0.5)
+                    .animation(.spring(response: 0.4, dampingFraction: 0.7), value: isAdding)
+
+                    // Second button (Symptom)
+                    NavigationLink(destination: AddSymptomView()) {
+                        Circle()
+                            .fill(Color.accentColor)
+                            .frame(width: 50, height: 50)
+                            .overlay(
+                                Image(systemName: "heart.text.square")
+                                    .foregroundColor(.white)
+                                    .font(.title2)
+                            )
+                    }
+                    .offset(y: isAdding ? -160 : 0)
+                    .opacity(isAdding ? 1 : 0)
+                    .scaleEffect(isAdding ? 1 : 0.5)
+                    .animation(.spring(response: 0.4, dampingFraction: 0.7), value: isAdding)
+
+                    // Add button
+                    ZStack {
+                        Circle()
+                            .fill(Color.accentColor)
+                            .frame(width: 60, height: 60)
+
+                        Image(systemName: "plus")
+                            .foregroundColor(.white)
+                            .font(.title)
+                    }
+                    .onTapGesture {
+                        withAnimation {
+                            isAdding.toggle()
+                        }
+                    }
+                }
+                .padding(.trailing, 20)
+                .padding(.bottom, 20)
             }
         }
     }
