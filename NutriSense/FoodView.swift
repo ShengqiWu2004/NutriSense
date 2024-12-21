@@ -1,4 +1,3 @@
-import Foundation
 import SwiftUI
 
 struct FoodsView: View {
@@ -9,14 +8,28 @@ struct FoodsView: View {
     var body: some View {
         NavigationView {
             ZStack {
+                // Main content
                 VStack {
                     Text("Add and track the food you eat each day.")
                         .font(.headline)
                         .padding()
-                    
+
                     Spacer()
                 }
                 .blur(radius: (isMenuOpen || isAdding) ? 10 : 0)
+
+                // Detect taps outside of the buttons or DatePicker
+                if isMenuOpen || isAdding {
+                    Color.black.opacity(0.01)
+                        .ignoresSafeArea()
+                        .onTapGesture {
+                            withAnimation {
+                                isMenuOpen = false
+                                isAdding = false
+                            }
+                        }
+                }
+                
 
                 if isMenuOpen {
                     VStack {
@@ -41,59 +54,57 @@ struct FoodsView: View {
                         Spacer()
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .background(Color.white)
+                    .background(
+                        Color.white.opacity(0.01) // Transparent background for tap detection
+                            .onTapGesture {
+                                withAnimation {
+                                    isMenuOpen = false
+                                }
+                            }
+                    )
                     .shadow(radius: 10)
                     .padding(.top, 50)
                 }
 
-                if isAdding {
-                    Color.black.opacity(0.01) // Detects taps while being nearly invisible
-                        .ignoresSafeArea()
-                        .onTapGesture {
-                            withAnimation {
-                                isAdding = false
-                            }
-                        }
-                    VStack {
+                // Smaller buttons moving outward
+                VStack {
+                    Spacer()
+                    HStack {
                         Spacer()
-
-                        HStack {
-                            Spacer()
-
-                            VStack(spacing: 10) {
-                                NavigationLink(destination: AddMealView()) {
-                                    Circle()
-                                        .fill(Color.blue)
-                                        .frame(width: 50, height: 50)
-                                        .overlay(
-                                            Image(systemName: "fork.knife")
-                                                .foregroundColor(.white)
-                                                .font(.title2)
-                                        )
-                                }
-                                .onTapGesture {
-                                    withAnimation {
-                                        isAdding = false
-                                    }
-                                }
-
-                                NavigationLink(destination: AddSymptomView()) {
-                                    Circle()
-                                        .fill(Color.red)
-                                        .frame(width: 50, height: 50)
-                                        .overlay(
-                                            Image(systemName: "heart")
-                                                .foregroundColor(.white)
-                                                .font(.title2)
-                                        )
-                                }
-                                .onTapGesture {
-                                    withAnimation {
-                                        isAdding = false
-                                    }
-                                }
+                        ZStack {
+                            // First button (Meal)
+                            NavigationLink(destination: AddMealView()) {
+                                Circle()
+                                    .fill(Color.accentColor)
+                                    .frame(width: 50, height: 50)
+                                    .overlay(
+                                        Image(systemName: "fork.knife")
+                                            .foregroundColor(.white)
+                                            .font(.title2)
+                                    )
                             }
+                            .offset(y: isAdding ? -80 : 0)
+                            .opacity(isAdding ? 1 : 0)
+                            .scaleEffect(isAdding ? 1 : 0.5)
+                            .animation(.spring(response: 0.4, dampingFraction: 0.7), value: isAdding)
 
+                            // Second button (Symptom)
+                            NavigationLink(destination: AddSymptomView()) {
+                                Circle()
+                                    .fill(Color.accentColor)
+                                    .frame(width: 50, height: 50)
+                                    .overlay(
+                                        Image(systemName: "heart.text.square")
+                                            .foregroundColor(.white)
+                                            .font(.title2)
+                                    )
+                            }
+                            .offset(y: isAdding ? -160 : 0)
+                            .opacity(isAdding ? 1 : 0)
+                            .scaleEffect(isAdding ? 1 : 0.5)
+                            .animation(.spring(response: 0.4, dampingFraction: 0.7), value: isAdding)
+
+                            // Add button
                             ZStack {
                                 Circle()
                                     .fill(Color.accentColor)
@@ -109,29 +120,8 @@ struct FoodsView: View {
                                 }
                             }
                         }
-                        .padding()
-                    }
-                } else {
-                    VStack {
-                        Spacer()
-                        HStack {
-                            Spacer()
-                            ZStack {
-                                Circle()
-                                    .fill(Color.accentColor)
-                                    .frame(width: 60, height: 60)
-
-                                Image(systemName: "plus")
-                                    .foregroundColor(.white)
-                                    .font(.title)
-                            }
-                            .onTapGesture {
-                                withAnimation {
-                                    isAdding.toggle()
-                                }
-                            }
-                        }
-                        .padding()
+                        .padding(.trailing, 20)
+                        .padding(.bottom, 20)
                     }
                 }
             }
