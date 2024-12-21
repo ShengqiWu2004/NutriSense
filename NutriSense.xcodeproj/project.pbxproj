@@ -15,6 +15,11 @@
 		0C60D0132D12A73F002BCBD7 /* NutriSenseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C60D0122D12A73F002BCBD7 /* NutriSenseTests.swift */; };
 		0C60D01D2D12A73F002BCBD7 /* NutriSenseUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C60D01C2D12A73F002BCBD7 /* NutriSenseUITests.swift */; };
 		0C60D01F2D12A73F002BCBD7 /* NutriSenseUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C60D01E2D12A73F002BCBD7 /* NutriSenseUITestsLaunchTests.swift */; };
+		0CFD6A402D16899C007658E6 /* FoodView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFD6A3F2D16899C007658E6 /* FoodView.swift */; };
+		0CFD6A422D168B75007658E6 /* ReportsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFD6A412D168B75007658E6 /* ReportsView.swift */; };
+		0CFD6A442D168BA1007658E6 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFD6A432D168BA1007658E6 /* SettingsView.swift */; };
+		0CFD6A462D168BCB007658E6 /* AddMealView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFD6A452D168BCB007658E6 /* AddMealView.swift */; };
+		0CFD6A482D168F7D007658E6 /* AddSymptomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CFD6A472D168F7D007658E6 /* AddSymptomView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +52,11 @@
 		0C60D0182D12A73F002BCBD7 /* NutriSenseUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NutriSenseUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C60D01C2D12A73F002BCBD7 /* NutriSenseUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NutriSenseUITests.swift; sourceTree = "<group>"; };
 		0C60D01E2D12A73F002BCBD7 /* NutriSenseUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NutriSenseUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		0CFD6A3F2D16899C007658E6 /* FoodView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodView.swift; sourceTree = "<group>"; };
+		0CFD6A412D168B75007658E6 /* ReportsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportsView.swift; sourceTree = "<group>"; };
+		0CFD6A432D168BA1007658E6 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		0CFD6A452D168BCB007658E6 /* AddMealView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMealView.swift; sourceTree = "<group>"; };
+		0CFD6A472D168F7D007658E6 /* AddSymptomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSymptomView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +113,11 @@
 				0C60D0042D12A73F002BCBD7 /* Assets.xcassets */,
 				0C60D0062D12A73F002BCBD7 /* NutriSense.entitlements */,
 				0C60D0072D12A73F002BCBD7 /* Preview Content */,
+				0CFD6A3F2D16899C007658E6 /* FoodView.swift */,
+				0CFD6A472D168F7D007658E6 /* AddSymptomView.swift */,
+				0CFD6A412D168B75007658E6 /* ReportsView.swift */,
+				0CFD6A432D168BA1007658E6 /* SettingsView.swift */,
+				0CFD6A452D168BCB007658E6 /* AddMealView.swift */,
 			);
 			path = NutriSense;
 			sourceTree = "<group>";
@@ -262,9 +277,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0CFD6A442D168BA1007658E6 /* SettingsView.swift in Sources */,
 				0C60D0012D12A73E002BCBD7 /* ContentView.swift in Sources */,
+				0CFD6A402D16899C007658E6 /* FoodView.swift in Sources */,
 				0C60D0032D12A73E002BCBD7 /* Item.swift in Sources */,
+				0CFD6A482D168F7D007658E6 /* AddSymptomView.swift in Sources */,
+				0CFD6A422D168B75007658E6 /* ReportsView.swift in Sources */,
 				0C60CFFF2D12A73E002BCBD7 /* NutriSenseApp.swift in Sources */,
+				0CFD6A462D168BCB007658E6 /* AddMealView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -446,10 +466,11 @@
 				PRODUCT_BUNDLE_IDENTIFIER = vdprojects.NutriSense;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -484,10 +505,11 @@
 				PRODUCT_BUNDLE_IDENTIFIER = vdprojects.NutriSense;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

@@ -1,66 +1,88 @@
-//
-//  ContentView.swift
-//  NutriSense
-//
-//  Created by 吴圣麒 on 12/17/24.
-//
-
 import SwiftUI
-import SwiftData
 
+public let activeColor = Color.accentColor //Color(red: 105/255, green: 169/255, blue: 27/255)
+public let inactiveColor = Color.gray
 struct ContentView: View {
-    @Environment(\.modelContext) private var modelContext
-    @Query private var items: [Item]
-
+    @State private var selectedTab: Tab = .foods // Keeps track of the selected tab
+    
+    enum Tab {
+        case foods, reports, settings
+    }
+    
     var body: some View {
-        NavigationSplitView {
-            List {
-                ForEach(items) { item in
-                    NavigationLink {
-                        Text("Item at \(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))")
-                    } label: {
-                        Text(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))
-                    }
-                }
-                .onDelete(perform: deleteItems)
-            }
-#if os(macOS)
-            .navigationSplitViewColumnWidth(min: 180, ideal: 200)
-#endif
-            .toolbar {
-#if os(iOS)
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
-#endif
-                ToolbarItem {
-                    Button(action: addItem) {
-                        Label("Add Item", systemImage: "plus")
-                    }
+        VStack {
+            Spacer() // Pushes content to the top
+            
+            // Show content based on selected tab
+            Group {
+                if selectedTab == .foods {
+                    FoodsView()
+                } else if selectedTab == .reports {
+                    ReportsView()
+                } else if selectedTab == .settings {
+                    SettingsView()
                 }
             }
-        } detail: {
-            Text("Select an item")
+            
+            Spacer()
+            
+            // Custom Bottom AppBar
+            HStack {
+                Spacer()
+                
+                // Foods Button
+                Button(action: {
+                    selectedTab = .foods
+                }) {
+                    Image(systemName: "leaf")
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                        .foregroundColor(selectedTab == .foods ? activeColor : inactiveColor)
+                }
+                
+                Spacer()
+                
+                // Reports Button
+                Button(action: {
+                    selectedTab = .reports
+                }) {
+                    Image(systemName: "doc.text.magnifyingglass")
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                        .foregroundColor(selectedTab == .reports ? activeColor : inactiveColor)
+                }
+                
+                Spacer()
+                
+                // Settings Button
+                Button(action: {
+                    selectedTab = .settings
+                }) {
+                    Image(systemName: "person.circle")
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                        .foregroundColor(selectedTab == .settings ? activeColor : inactiveColor)
+                }
+                
+                Spacer()
+            }
+            .frame(height: 60) // Height of the AppBar
+            .background(Color.white)
+            .edgesIgnoringSafeArea(.bottom) // Extends background color under safe area
         }
     }
+    
+    // Colors for active and inactive icons
 
-    private func addItem() {
-        withAnimation {
-            let newItem = Item(timestamp: Date())
-            modelContext.insert(newItem)
-        }
-    }
-
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-            for index in offsets {
-                modelContext.delete(items[index])
-            }
-        }
-    }
 }
+
+
+
+
+
+
 
 #Preview {
     ContentView()
-        .modelContainer(for: Item.self, inMemory: true)
+        
 }
